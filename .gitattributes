@@ -1,0 +1,20 @@
+# =============================================================================
+# .gitattributes
+# =============================================================================
+# 改行コードの設定
+*           text=auto
+*.js        text    eol=crlf
+*.mjs       text    eol=crlf
+*.ts        text    eol=crlf
+*.d.ts      text    eol=crlf
+*.txt       text    eol=crlf
+*.json      text    eol=crlf
+*.yml       text    eol=crlf
+*.yaml      text    eol=crlf
+*.toml      text    eol=crlf
+*.env       text    eol=crlf
+*.md        text    eol=crlf
+LICENSE     text    eol=crlf
+
+# linux上で実行するファイルはLFとする
+*.sh        text    eol=lf

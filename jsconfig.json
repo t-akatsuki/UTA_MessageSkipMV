@@ -1,0 +1,39 @@
+// =============================================================================
+// VSCode JavaScript関連設定ファイル
+// https://code.visualstudio.com/docs/languages/jsconfig
+// =============================================================================
+{
+  "compilerOptions": {
+    // コード記述はRPGツクールMV/MZで動作する機能範囲に適合するECMAScriptバージョンを利用
+    "target": "es2022",
+    // ESModuleでのモジュール解決
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    // 型チェック用途のみに利用するが、プロジェクトルートで checkJs: true とすると
+    // 参照先RPGツクール コアスクリプトで大量にエラーが出る
+    // 継承先で限定的に有効とする
+    "checkJs": false,
+    // 厳密な型チェックを有効化
+    "strict": true,
+    // 念の為トランスパイル用途で無い事を明示指定
+    "noEmit": true,
+    "paths": {
+      "*": [
+        "./types/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "types/**/*",
+    // RPGツクールMV/MZコアスクリプト+ライブラリ
+    "project/js/rmmv_*.js",
+    "project/js/rmmz_*.js",
+    "project/js/libs/**/*.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist"
+  ]
+}

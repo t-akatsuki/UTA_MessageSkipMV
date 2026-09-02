@@ -1,0 +1,32 @@
+// =============================================================================
+// textlint設定ファイル
+// https://github.com/textlint/textlint
+// =============================================================================
+{
+  "rules": {
+    // 日本語向けルールプリセット
+    // https://github.com/textlint-ja/textlint-rule-preset-japanese
+    "preset-japanese": true,
+    // 日本語周りのスペース有無チェック用ルールプリセット
+    // https://github.com/textlint-ja/textlint-rule-preset-ja-spacing
+    "preset-ja-spacing": {
+      // 全角文字と半角文字の間のスペースを許容
+      "ja-space-between-half-and-full-width": false,
+      // 全角文字どうしの間のスペースを許容
+      "ja-no-space-between-full-width": false,
+      // かっこの外側、内側のスペースを許容
+      "ja-no-space-around-parentheses": false
+    },
+    // TODO残存チェック用ルール
+    // https://github.com/textlint-rule/textlint-rule-no-todo
+    "no-todo": true,
+    // prhを利用した自前定義辞書ルール
+    // https://github.com/textlint-rule/textlint-rule-prh
+    "prh": {
+      "rulePaths": [
+        // RPGツクール関連自前定義辞書
+        "textlint/rules/rpg-maker-mvz.yml"
+      ]
+    }
+  }
+}

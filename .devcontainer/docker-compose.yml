@@ -1,0 +1,48 @@
+# ===================================================================
+# DevContainer用docker-composeファイル
+# ===================================================================
+# -------------------------------------------------------------------
+# 各種サービスの定義
+# -------------------------------------------------------------------
+services:
+  # -----------------------------------------------------------------
+  # DevContainer用コンテナ
+  # -----------------------------------------------------------------
+  uta_rpgmvz-plugin-devcontainer:
+    # 衝突防止の為に COMPOSE_PROJECT_NAME を付与しておく
+    container_name: "${COMPOSE_PROJECT_NAME}_uta_rpgmvz-plugin-devcontainer"
+    build:
+      context: ../
+      dockerfile: ./.devcontainer/Dockerfile
+    image: utakata/rpgmvz-plugin-devcontainer:node-24-trixie
+    tty: true
+    environment:
+      # タイムゾーン
+      - TZ=${TZ:-Asia/Tokyo}
+    volumes:
+      # プロジェクトワークスペース
+      - type: bind
+        source: ../
+        target: /workspace
+        read_only: false
+        consistency: cached
+      # node_modulesのパフォーマンス対策の為のvolume
+      - type: volume
+        source: uta_rpgmvz-plugin-devcontainer__node_modules
+        target: /workspace/node_modules
+      # RPGツクールMV/MZプロジェクトをprojectディレクトリをマウント
+      # ビルドしたプラグインをすぐにテストプレイできるように
+      - type: bind
+        source: ${UTA_DEST_RPGMVZ_PROJECT:?UTA_DEST_RPGMVZ_PROJECT is not defined}
+        target: /workspace/project
+        read_only: false
+        consistency: cached
+# -------------------------------------------------------------------
+# Docker volumeの定義
+# -------------------------------------------------------------------
+volumes:
+  # node_modulesのパフォーマンス対策の為のvolume
+  # 識別可能なように名前を付けておく
+  uta_rpgmvz-plugin-devcontainer__node_modules:
+    driver: local
+    name: "${COMPOSE_PROJECT_NAME}_node_modules"

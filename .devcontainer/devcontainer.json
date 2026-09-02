@@ -1,0 +1,26 @@
+// =============================================================================
+// DevContainer設定ファイル
+// https://containers.dev/implementors/json_reference/
+// =============================================================================
+{
+  "name": "uta_rpgmvz-plugin-devcontainer",
+  // DevContainerのnode.js系ベースイメージはnode.js公式ベースイメージを基にしている
+  // 利用ユーザーはvscodeではなくnodeである事に注意
+  "remoteUser": "node",
+  "containerUser": "node",
+  // 環境変数での設定を柔軟にするためにcomposeを利用
+  "dockerComposeFile": "./docker-compose.yml",
+  "service": "uta_rpgmvz-plugin-devcontainer",
+  "shutdownAction": "stopCompose",
+  "workspaceFolder": "/workspace",
+  // 起動時にnpmパッケージのインストールを行う
+  "postCreateCommand": "sudo chown -R node:node node_modules && npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  }
+}

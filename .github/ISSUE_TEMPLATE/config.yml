@@ -1,0 +1,12 @@
+---
+# 空のissueの作成を無効化
+# 必ずテンプレートから作成させる
+blank_issues_enabled: false
+# ユーザー向けにWebサイト問い合わせフォームへの導線を追加
+contact_links:
+  - name: "📫 【ユーザー向け】プラグインの不具合報告/ご質問"
+    url: https://www.utakata-no-yume.net/contact/rpgmvmz/plugin-support/
+    about: "通常の不具合報告やご質問はWebサイトのフォームからお願いいたします"
+  - name: "♥️ 【ユーザー向け】プラグインに関するご感想/ご利用報告"
+    url: https://www.utakata-no-yume.net/contact/rpgmvmz/plugin-impression/
+    about: "ご感想/ご利用報告はWebサイトのフォームからお願いいたします"

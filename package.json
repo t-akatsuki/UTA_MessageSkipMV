@@ -1,0 +1,48 @@
+{
+  "name": "UTA_MessageSkipMV",
+  "version": "2.0.0",
+  "description": "[RPGMakerMV Plugin] Skip the message by pressing a specific key.",
+  "license": "MIT",
+  "private": true,
+  "author": "t-akatsuki",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/t-akatsuki/UTA_MessageSkipMV"
+  },
+  "homepage": "https://www.utakata-no-yume.net",
+  "bugs": {
+    "url": "https://www.utakata-no-yume.net/contact/rpgmvmz/plugin-support/"
+  },
+  "config": {
+    "PLUGIN_FILENAME": "UTA_MessageSkipMV.js"
+  },
+  "scripts": {
+    "clean": "rimraf build/*",
+    "lint:js": "eslint --config eslint.config.mjs --color",
+    "lint:txt": "textlint --config .textlintrc.json docs/README.txt",
+    "lint:txt:fix": "textlint --config .textlintrc.json --fix docs/README.txt",
+    "format:js": "eslint --config eslint.config.mjs --color --fix",
+    "build:debug": "rollup --config rollup.config.mjs --environment TARGET:debug",
+    "build:release": "rollup --config rollup.config.mjs --environment TARGET:release",
+    "watch": "rollup --config rollup.config.mjs --environment TARGET:debug --watch",
+    "ncu:check": "ncu --color -c 7d -t minor -x '@types/*'",
+    "ncu:upgrade": "ncu --color -c 7d -t minor -u -x '@types/*'"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@rollup/plugin-replace": "6.0.3",
+    "@stylistic/eslint-plugin": "5.10.0",
+    "@types/node": "9.6.61",
+    "eslint": "10.8.1",
+    "globals": "17.11.0",
+    "js-tokens": "10.0.0",
+    "npm-check-updates": "23.0.2",
+    "rimraf": "6.1.3",
+    "rollup": "4.62.4",
+    "textlint": "15.8.0",
+    "textlint-rule-no-todo": "2.0.1",
+    "textlint-rule-preset-ja-spacing": "3.0.3",
+    "textlint-rule-preset-japanese": "10.0.4",
+    "textlint-rule-prh": "6.1.0"
+  }
+}

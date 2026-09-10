@@ -6,6 +6,7 @@ import { defineConfig } from "rollup";
 import path from "node:path";
 import fs from "node:fs";
 import replace from "@rollup/plugin-replace";
+import alias from "@rollup/plugin-alias";
 import jsTokens from "js-tokens";
 
 import pkg from "./package.json" with { type: "json" };

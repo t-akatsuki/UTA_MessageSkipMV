@@ -536,6 +536,8 @@ export default defineConfig([
           "varsIgnorePattern": "^_",
         },
       ],
+      // 例外オブジェクトのcause指定はES2022からなので強要しない
+      "preserve-caught-error": "off",
 
       /**
        * ESLint Stylistic rules

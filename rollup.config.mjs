@@ -212,7 +212,8 @@ export default defineConfig({
     // 'use strict'を出力する
     "strict": true,
     // ソースマップはデバッグビルド時のみ有効にする
-    "sourcemap": buildTarget === "debug" ? "inline" : false,
+    // "sourcemap": buildTarget === "debug" ? "inline" : false,
+    "sourcemap": false,
     // 出力インデントはスペースとする
     "indent": "    ",
     // 生成するJavaScriptコードの調整

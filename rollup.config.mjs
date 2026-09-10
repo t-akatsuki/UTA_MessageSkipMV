@@ -20,6 +20,13 @@ import pkg from "./package.json" with { type: "json" };
 const buildTarget = process.env?.TARGET || "debug";
 
 /**
+ * 対象とするRPGツクールのエディション。
+ * package.jsonの定義値。
+ * @type {"MV" | "MZ"}
+ */
+const RPGMAKER_EDITION = pkg.config.RPGMAKER_EDITION.toUpperCase()
+
+/**
  * プラグインのバージョン。
  * package.jsonで定義したバージョンに合わせる。
  * @type {string}
@@ -32,13 +39,6 @@ const PLUGIN_VERSION = pkg.version;
  * @type {string}
  */
 const PLUGIN_VERSION_WITH_V = `v${PLUGIN_VERSION}`;
-
-/**
- * プラグインのバージョン。
- * 数値として置換されないようにjson string化したもの。
- * @type {string}
- */
-// const PLUGIN_VERSION_STR = JSON.stringify(PLUGIN_VERSION);
 
 /**
  * プラグインの識別子。(拡張子を除いたプラグインのファイル名)
@@ -219,9 +219,11 @@ export default defineConfig({
     "generatedCode": {
       /**
        * RPGツクールMV: 古いバージョンはES5だが、直近はES2015(ES6)に対応している
+       *                ES2020には対応していない
        * RPGツクールMZ: 初期からES2015(ES6)に対応している
+       *                ES2022には対応しているが、ES2023には対応していない
        */
-      "preset": "es2015",
+      "preset": RPGMAKER_EDITION == "MZ" ? "es2022" : "es2015",
       // アロー関数を許可
       "arrowFunctions": true,
       // const / letを許可

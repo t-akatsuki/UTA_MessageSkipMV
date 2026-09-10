@@ -7,22 +7,14 @@ import { defineConfig } from "eslint/config";
 
 import pluginStylistic from "@stylistic/eslint-plugin";
 
-/**
- * 対象とするRPGツクールのエディション定義。
- *   MV: RPGツクールMV
- *   MZ: RPGツクールMZ
- * @enum {string}
- */
-const RPGMakerEdition = Object.freeze({
-  "MV": "mv",
-  "MZ": "mz",
-});
+import pkg from "./package.json" with { type: "json" };
 
 /**
  * 対象とするRPGツクールのエディション。
- * @type {string}
+ * package.jsonの定義値。
+ * @type {"MV" | "MZ"}
  */
-const TARGET_EDITION = RPGMakerEdition.MV;
+const RPGMAKER_EDITION = pkg.config.RPGMAKER_EDITION.toUpperCase()
 
 /**
  * RPGツクールMV用globals定義。
@@ -455,17 +447,17 @@ const GLOBAL_CONF_MZ = Object.freeze({
 
 /**
  * 対象エディションに合わせたglobals設定値を得る。
- * @param {RPGMakerEdition} edition 対象のRPGツクールエディション。
- * @return {Object.<string, string>} globals設定値となる連想配列。
+ * @param {"MV" | "MZ"} edition 対象のRPGツクールエディション。
+ * @return {Object<string, string>} globals設定値となる連想配列。
  */
 function getRPGMakerGlobals(edition) {
   let ret;
   switch (edition) {
-    case RPGMakerEdition.MV:
-      ret = Object.assign(GLOBAL_CONF_MV);
+    case "MV":
+      ret = Object.assign({}, GLOBAL_CONF_MV);
       break;
-    case RPGMakerEdition.MZ:
-      ret = Object.assign(GLOBAL_CONF_MZ);
+    case "MZ":
+      ret = Object.assign({}, GLOBAL_CONF_MZ);
       break;
     default:
       throw new Error();
@@ -482,16 +474,18 @@ export default defineConfig([
     "languageOptions": {
       // トランスパイル前コードはESModule形式で記載
       "sourceType": "module",
-      // トランスパイル前コードはES2022相当のコードで記述
-      "ecmaVersion": 2022,
-      // 
+      // トランスパイル前コードはエディションによって書ける範囲が異なる
+      // RPGツクールMV: ES2015相当で記述
+      // RPGツクールMZ: ES2022相当で記述
+      "ecmaVersion": RPGMAKER_EDITION === "MZ" ? 2022: 2015,
+      // グローバル変数定義
       "globals": {
         ...globals.es2022,
         ...globals.browser,
         ...globals.node,
 
         // 対象エディションに応じたglobal定義
-        ...getRPGMakerGlobals(TARGET_EDITION),
+        ...getRPGMakerGlobals(RPGMAKER_EDITION),
 
         // 開発プラグインの名前空間
         "utakata": "writable",

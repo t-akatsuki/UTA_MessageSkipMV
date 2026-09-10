@@ -14,6 +14,7 @@
     "url": "https://www.utakata-no-yume.net/contact/rpgmvmz/plugin-support/"
   },
   "config": {
+    "RPGMAKER_EDITION": "MV",
     "PLUGIN_FILENAME": "UTA_MessageSkipMV.js"
   },
   "scripts": {

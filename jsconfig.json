@@ -5,7 +5,9 @@
 {
   "compilerOptions": {
     // コード記述はRPGツクールMV/MZで動作する機能範囲に適合するECMAScriptバージョンを利用
-    "target": "es2022",
+    // RPGツクールMVは "es2015" 相当でないと動作しない(es2020追加項目に対応していなかった)
+    // RPGツクールMZは "es2022" 相当が安全(es2023追加項目に対応していなかった)
+    "target": "es2015",
     // ESModuleでのモジュール解決
     "module": "nodenext",
     "moduleResolution": "nodenext",

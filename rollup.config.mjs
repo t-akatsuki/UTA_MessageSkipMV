@@ -274,6 +274,15 @@ export default defineConfig({
       // __PLUGIN_IDENTIFIER__: package.jsonで定義したプラグインのファイル名(拡張子抜き)
       "__PLUGIN_IDENTIFIER__": PLUGIN_IDENTIFIER,
     }),
+    // パスエイリアスの設定
+    alias({
+      "entries": [
+        {
+          "find": "@",
+          "replacement": path.resolve("./src"),
+        }
+      ]
+    }),
     // 不要なコメントの削除
     commentCleaner(),
     // 改行コードの調整

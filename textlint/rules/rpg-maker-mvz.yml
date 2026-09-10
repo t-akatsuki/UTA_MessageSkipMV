@@ -1,0 +1,33 @@
+# =============================================================================
+# RPGツクールMV/MZ関連用語
+# textlint-rule-prh用辞書
+# =============================================================================
+---
+version: 1
+
+rules:
+  # RPGツクール固有用語
+  # 公式が利用している表現に揃える
+  - expected: RPGツクール
+    pattern: /rpgmaker/i
+  - expected: ツクール
+    pattern:
+      - つくーる
+  - expected: RPGツクールMV
+    pattern: /(?i:rpg)?ツクール(?i:mv)/
+  - expected: RPGツクールMZ
+    pattern: /(?i:rpg)?ツクール(?i:mz)/
+  - expected: コモンイベント
+    pattern: /コモン(?!イベント)/
+  # 「プラグインパラメータ」は伸ばし棒が無い
+  - expected: プラグインパラメータ
+    pattern:
+      - プラグインパラメーター
+      - プラグイン パラメータ
+  # 技術/ツール/ライブラリ関連用語
+  - expected: JavaScript
+  - expected: Pixi.js
+  - expected: NW.js
+  # 拡張子として表現される場合は適用しない
+  - expected: JSON
+    pattern: /(?<!\.)json/i

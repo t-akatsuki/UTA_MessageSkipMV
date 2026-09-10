@@ -1,0 +1,41 @@
+// ==================================================================
+// VSCodeワークスペース設定ファイル
+// ==================================================================
+{
+  // フォーマッターとしてEditorConfigを利用する
+  "editor.defaultFormatter": "EditorConfig.EditorConfig",
+  // 保存時にフォーマットを適用
+  "editor.formatOnSave": true,
+  // ファイルエンコーディングはutf-8に統一
+  // Windows10 May 2019 Updateからメモ帳でもUTF-8(BOMなし)がサポートされている
+  "files.encoding": "utf8",
+  // ファイルの関連付け
+  "files.associations": {
+    // jsonをjsoncとして解釈させる
+    "*.json": "jsonc",
+    ".*.json": "jsonc"
+  },
+  "[javascript]": {
+    // 改行コードをCRLFに指定
+    "files.eol": "\r\n",
+    // javascript編集時にESLintでフォーマットさせる
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+    },
+  },
+  // ESLint拡張機能設定
+  "eslint.enable": true,
+  "eslint.format.enable": true,
+  "eslint.useFlatConfig": true,
+  "eslint.run": "onType",
+  "eslint.probe": [
+    "javascript"
+  ],
+  "eslint.validate": [
+    "javascript"
+  ],
+  "eslint.options": {
+    "overrideConfigFile": "eslint.config.mjs"
+  }
+}

@@ -19,7 +19,7 @@ const RPGMAKER_EDITION = pkg.config.RPGMAKER_EDITION.toUpperCase()
 /**
  * RPGツクールMV用globals定義。
  * RPGMakerMV v1.6.3 core script global objects
- * @type {Object.<string, string>}
+ * @type {Object<string, string>}
  */
 const GLOBAL_CONF_MV = Object.freeze({
   /**
@@ -233,7 +233,7 @@ const GLOBAL_CONF_MV = Object.freeze({
 /**
  * RPGツクールMZ用globals定義。
  * RPGMakerMZ v1.9.0 core script global objects
- * @type {Object.<string, string>}
+ * @type {Object<string, string>}
  */
 const GLOBAL_CONF_MZ = Object.freeze({
   // main.js

@@ -1,5 +1,10 @@
 
 /**
+ * Global objects
+ */
+declare const $gameSwitches: Game_Switches;
+
+/**
  * The static class that manages the plugins.
  */
 declare class PluginManager {

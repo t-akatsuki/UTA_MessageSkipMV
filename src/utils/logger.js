@@ -62,13 +62,13 @@ export const LogManager = (() => {
     };
 
     /**
-     * Loggerオブジェクトを取得する。
+     * Loggerオブジェクトを生成する。
      * @static
      * @param {string} [prefix] ログ出力時に付与するprefix文字列。
      * @param {number} [logLevel] 基準とするログレベル。指定しない場合は設定されたログレベルを利用。
      * @return {Logger} 指定したログレベルを考慮して作成したLoggerオブジェクト。
      */
-    LogManager.getLogger = function(prefix = "", logLevel) {
+    LogManager.createLogger = function(prefix = "", logLevel) {
         if (prefix) {
             prefix += ":";
         }
@@ -119,9 +119,7 @@ export const LogManager = (() => {
     return LogManager;
 })();
 
-/**
- * デバッグログを有効にした場合はログレベルを調整。
- */
+/* デバッグログを有効にした場合はログレベルを調整 */
 if (config.parameters.debugLogEnabled) {
     LogManager.setLogLevel(LogLevel.DEBUG);
 }
@@ -130,4 +128,4 @@ if (config.parameters.debugLogEnabled) {
  * プラグインパラメータのログレベル設定を反映した汎用Logger。
  * @type {Logger}
  */
-export const logger = LogManager.getLogger(config.identifier);
+export const logger = LogManager.createLogger(config.identifier);

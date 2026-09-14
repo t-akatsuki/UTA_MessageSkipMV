@@ -2,22 +2,39 @@
 // plugin_config - プラグイン設定管理モジュール
 // ============================================================================
 import { UTA_MessageSkipMVError } from "@/utils/error";
-import { strictCastParameter } from "@/utils/common";
+import { strictParseParameter } from "@/utils/parser";
 
 /**
- * @typedef {Object} skipTargetMessageType
- * @property {boolean} enabledOnShowText 「文章の表示」でメッセージスキップ機能を有効にするか。
- * @property {boolean} enabledOnShowScrollingText 「文章のスクロール表示」でメッセージスキップ機能を有効にするか。
- * @property {boolean} enabledOnBattleLogText 戦闘中の戦闘ログでメッセージスキップ機能を有効にするか。
+ * 「文章の表示」におけるメッセージスキップ設定。
+ * @typedef {Object} settingsOfOnShowText
+ * @property {boolean} messageSkipEnabled 「文章の表示」でのメッセージスキップの有効状態。
+ * @property {boolean} forceDisabledDefaultSkip 「文章の表示」でデフォルト早送り機能を無効化するか。
+ * @property {boolean} skipPauseOperationsEnabled 「文章の表示」で制御記号を用いたウェイトをスキップ対象に含めるか。
+ */
+
+/**
+ * 「文章のスクロール表示」のメッセージスキップ設定。
+ * @typedef {Object} settingsOfOnShowScrollingText
+ * @property {boolean} messageSkipEnabled 「文章のスクロール表示」でのメッセージスキップの有効状態。
+ * @property {boolean} forceDisabledDefaultSkip 「文章のスクロール表示」でフォルト早送り機能を無効化するか。
+ * @property {number} fastForwardRate 「文章のスクロール表示」でのメッセージスキップ時のスクロール速度。
+ */
+
+/**
+ * 戦闘ログにおけるメッセージスキップ設定。
+ * @typedef {Object} settingsOfBattleLog
+ * @property {boolean} messageSkipEnabled 戦闘ログでのメッセージスキップの有効状態。
+ * @property {boolean} forceDisabledDefaultSkip 戦闘ログでデフォルト早送り機能を無効化するか。
+ * @property {number} fastForwardRate 戦闘ログでのメッセージスキップ時の表示速度。
  */
 
 /**
  * @typedef {Object} UTA_MessageSkipMVPluginParameters
  * @property {string[]} skipAssignedKeys メッセージスキップキー。
  * @property {boolean} touchHoldSkipEnabled タッチ長押しでメッセージスキップを有効にするか。
- * @property {boolean} forceDisabledBasicSkip デフォルトスキップ機能を無効にするか。
- * @property {boolean} isSkipPauseOperations ウェイト関連制御記号をスキップするか。
- * @property {skipTargetMessageType} messageSkipTargets メッセージスキップ機能の有効状態個別設定。
+ * @property {settingsOfOnShowText} settingsOfOnShowText 「文章の表示」におけるメッセージスキップ設定。
+ * @property {settingsOfOnShowScrollingText} settingsOfOnShowScrollingText 「文章のスクロール表示」のメッセージスキップ設定。
+ * @property {settingsOfBattleLog} settingsOfBattleLog 戦闘ログにおけるメッセージスキップ設定。
  * @property {boolean} debugLogEnabled デバッグログの有効状態。
  */
 
@@ -80,7 +97,7 @@ const PluginConfig = (() => {
 
     /**
      * プラグインパラメータをロードし、適切な型に変換したデータを取得する。
-     * @return {UTA_MessageSkipMVPluginParameters}
+     * @return {UTA_MessageSkipMVPluginParameters} 適切な型に変換したプラグインパラメータ連想配列。読み取り専用。
      */
     PluginConfig.prototype._loadPluginParameters = function() {
         /**
@@ -94,19 +111,31 @@ const PluginConfig = (() => {
         let parameters = {};
 
         try {
-            parameters["skipAssignedKeys"] = /** @type {string[]} */ (strictCastParameter(rawParameters["skipAssignedKeys"], "object"));
-            parameters["touchHoldSkipEnabled"] = strictCastParameter(rawParameters["touchHoldSkipEnabled"], "boolean");
-            parameters["forceDisabledBasicSkip"] = strictCastParameter(rawParameters["forceDisabledBasicSkip"], "boolean");
-            parameters["isSkipPauseOperations"] = strictCastParameter(rawParameters["isSkipPauseOperations"], "boolean");
+            parameters["skipAssignedKeys"] = /** @type {string[]} */ (strictParseParameter(rawParameters["skipAssignedKeys"], "object"));
+            parameters["touchHoldSkipEnabled"] = strictParseParameter(rawParameters["touchHoldSkipEnabled"], "boolean");
 
-            const _messageSkipTargets = /** @type {Object<string, string>} */strictCastParameter(rawParameters["messageSkipTargets"], "object");
-            parameters["messageSkipTargets"] = {
-                "enabledOnShowText": strictCastParameter(_messageSkipTargets["enabledOnShowText"], "boolean"),
-                "enabledOnShowScrollingText": strictCastParameter(_messageSkipTargets["enabledOnShowScrollingText"], "boolean"),
-                "enabledOnBattleLogText": strictCastParameter(_messageSkipTargets["enabledOnBattleLogText"], "boolean")
+            const _settingsOfOnShowText = /** @type {Object<string, any>} */strictParseParameter(rawParameters["settingsOfOnShowText"], "object");
+            parameters["settingsOfOnShowText"] = {
+                "messageSkipEnabled": strictParseParameter(_settingsOfOnShowText["messageSkipEnabled"], "boolean"),
+                "forceDisabledDefaultSkip": strictParseParameter(_settingsOfOnShowText["forceDisabledDefaultSkip"], "boolean"),
+                "skipPauseOperationsEnabled": strictParseParameter(_settingsOfOnShowText["skipPauseOperationsEnabled"], "boolean")
             };
 
-            parameters["debugLogEnabled"] = strictCastParameter(rawParameters["debugLogEnabled"], "boolean");
+            const _settingsOfOnShowScrollingText = /** @type {Object<string, any>} */strictParseParameter(rawParameters["settingsOfOnShowScrollingText"], "object");
+            parameters["settingsOfOnShowScrollingText"] = {
+                "messageSkipEnabled": strictParseParameter(_settingsOfOnShowScrollingText["messageSkipEnabled"], "boolean"),
+                "forceDisabledDefaultSkip": strictParseParameter(_settingsOfOnShowScrollingText["forceDisabledDefaultSkip"], "boolean"),
+                "fastForwardRate": strictParseParameter(_settingsOfOnShowScrollingText["fastForwardRate"], "number")
+            };
+
+            const _settingsOfBattleLog = /** @type {Object<string, any>} */strictParseParameter(rawParameters["settingsOfBattleLog"], "object");
+            parameters["settingsOfBattleLog"] = {
+                "messageSkipEnabled": strictParseParameter(_settingsOfBattleLog["messageSkipEnabled"], "boolean"),
+                "forceDisabledDefaultSkip": strictParseParameter(_settingsOfBattleLog["forceDisabledDefaultSkip"], "boolean"),
+                "fastForwardRate": strictParseParameter(_settingsOfBattleLog["fastForwardRate"], "number")
+            };
+
+            parameters["debugLogEnabled"] = strictParseParameter(rawParameters["debugLogEnabled"], "boolean");
         } catch(e) {
             const errorName = e instanceof Error ? e.name : "Unknown error";
             const errorMessage = e instanceof Error ? e.message : "Unknown error";

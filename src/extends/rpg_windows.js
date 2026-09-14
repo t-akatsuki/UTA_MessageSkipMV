@@ -1,4 +1,4 @@
-import { MessageSkipManager } from "@/utakata/message_skip";
+import { MessageSkipManager, MessageSkipTarget } from "@/utakata/message_skip";
 
 /* ------------------------------------------------------------------------- */
 /*  Window_Message extends */
@@ -18,19 +18,18 @@ const _Window_Message_prototype_updateShowFast = Window_Message.prototype.update
 Window_Message.prototype.updateShowFast = function() {
     _Window_Message_prototype_updateShowFast.call(this);
 
-    if (!MessageSkipManager.isEnabledOnShowText()) {
+    if (!MessageSkipManager.isEnabled(MessageSkipTarget.SHOW_TEXT)) {
         return;
     }
 
-    /**
-     * デフォルト機能を無効に設定した場合、メッセージスキッププラグインで設定したキーのみを考慮する
-     */
-    let isTriggered = this.isTriggered() && !MessageSkipManager.isForceDisabledBasicSkip();
+    /* デフォルト機能を無効に設定した場合、メッセージスキッププラグインで設定したキーのみを考慮する */
+    let isTriggered = this.isTriggered() && !MessageSkipManager.isForceDisabledDefaultSkip(MessageSkipTarget.SHOW_TEXT);
     isTriggered = isTriggered || MessageSkipManager.isTriggeredSkipButton();
-    
+
     this._showFast = isTriggered;
 
-    if (isTriggered && MessageSkipManager.isSkipPauseOperations()) {
+    /* ウェイト系制御文字のスキップを有効にした場合は当該フラグを立てる */
+    if (isTriggered && MessageSkipManager.isSkipPauseOperations(MessageSkipTarget.SHOW_TEXT)) {
         this._pauseSkip = true;
     }
 };

@@ -1,18 +1,22 @@
-import { strictCastParameter, strictCastParameters } from "@/utils/common";
+import { strictParseParameter, strictParseParameters } from "@/utils/parser";
 import { logger } from "@/utils/logger";
 
 import { config } from "@/utakata/plugin_config";
 import { UTA_MessageSkipMVError } from "@/utils/error";
 
 /**
- * メッセージスキップ状態値の定義。
- * @readonly
- * @type {Object<string, number>}
+ * メッセージスキップ対象種別定義識別子。
+ * @typedef {"showText" | "scrollingText" | "battleLog"} MessageSkipTargeType
  */
-const MessageSkipState = Object.freeze({
-    "DISABLED": 0,
-    "READY": 1,
-    "SKIPPING": 2
+
+/**
+ * メッセージスキップ対象の種別定義。
+ * @type {Object<string, MessageSkipTargeType>}
+ */
+export const MessageSkipTarget = Object.freeze({
+    "SHOW_TEXT": "showText",
+    "SCROLLING_TEXT": "scrollingText",
+    "BATTLE_LOG": "battleLog"
 });
 
 export const MessageSkipManager = (function() {
@@ -24,9 +28,12 @@ export const MessageSkipManager = (function() {
         throw new Error("MessageSkipManager is static class");
     }
 
+    MessageSkipManager.prototype.constructor = MessageSkipManager;
+
     /**
-     * PluginConfigの参照。
+     * PluginConfigのalias。
      * @static
+     * @alias
      */
     MessageSkipManager.config = config;
 
@@ -43,64 +50,79 @@ export const MessageSkipManager = (function() {
     });
 
     /**
-     * メッセージスキップの有効状態。
+     * メッセージスキップ機能全体の有効状態。
      * @static
      * @type {boolean}
      */
     MessageSkipManager._enabled = true;
 
     /**
-     * デフォルトスキップ機能の無効化の有効状態を取得する。
-     * @static
-     * @return {boolean} デフォルトスキップ機能の無効化が有効の場合true。
+     * 対象のメッセージスキップ機能の有効状態を得る。
+     * @param {MessageSkipTargeType} [target] 対象種別。
+     * @return {boolean} メッセージスキップ機能の有効状態
      */
-    MessageSkipManager.isForceDisabledBasicSkip = function() {
-        return this.config.parameters.forceDisabledBasicSkip;
-    };
-
-    /**
-     * ウェイト関連制御文字をメッセージスキップ対象に含めるか取得する。
-     * @static
-     * @return {boolean} ウェイト関連制御文字をメッセージスキップ対象に含める場合true。
-     */
-    MessageSkipManager.isSkipPauseOperations = function() {
-        return this.config.parameters.isSkipPauseOperations;
-    };
-
-    MessageSkipManager.isEnabledOnShowText = function() {
-        return this.isEnabled() && this.config.parameters.messageSkipTargets.enabledOnShowText;
-    };
-
-    MessageSkipManager.isEnabledOnShowScrollingText = function() {
-        return this.isEnabled() && this.config.parameters.messageSkipTargets.enabledOnShowScrollingText;
-    };
-
-    MessageSkipManager.isEnabledOnBattleLogText = function() {
-        return this.isEnabled() && this.config.parameters.messageSkipTargets.enabledOnBattleLogText;
-    };
-
-    /**
-     * メッセージスキップの有効状態を取得する。
-     * @static
-     * @return {boolean} メッセージスキップの有効状態。
-     */
-    MessageSkipManager.isEnabled = function() {
-        return this._enabled;
-    };
-
-    /**
-     * メッセージスキップの有効状態を設定する。
-     * @static
-     * @param {boolean} enabled 設定する有効状態。
-     */
-    MessageSkipManager.setEnabled = function(enabled) {
-        logger.debug(`Set message skip state to '${enabled}'`);
-
-        if (enabled !== this._enabled) {
-            this._state = enabled ? MessageSkipState.READY : MessageSkipState.DISABLED;
+    MessageSkipManager.isEnabled = function(target) {
+        let ret = this._enabled;
+        if (target === void 0) {
+            return ret;
         }
 
-        this._enabled = enabled;
+        switch (target) {
+            case MessageSkipTarget.SHOW_TEXT:
+                ret = ret && this.config.parameters.settingsOfOnShowText.messageSkipEnabled;
+                break;
+            case MessageSkipTarget.SCROLLING_TEXT:
+                ret = ret && this.config.parameters.settingsOfOnShowScrollingText.messageSkipEnabled;
+                break;
+            case MessageSkipTarget.BATTLE_LOG:
+                ret = ret && this.config.parameters.settingsOfBattleLog.messageSkipEnabled;
+                break;
+            default:
+                throw new UTA_MessageSkipMVError(`Invalid message skip target (${target})`);
+        }
+        return ret;
+    };
+
+    /**
+     * デフォルトスキップ機能の無効化設定を取得する。
+     * @param {MessageSkipTargeType} target 対象種別。
+     * @return {boolean} デフォルトスキップ無効化設定としている場合はtrue。
+     */
+    MessageSkipManager.isForceDisabledDefaultSkip = function(target) {
+        let ret;
+        switch (target) {
+            case MessageSkipTarget.SHOW_TEXT:
+                ret = this.config.parameters.settingsOfOnShowText.forceDisabledDefaultSkip;
+                break;
+            case MessageSkipTarget.SCROLLING_TEXT:
+                ret = this.config.parameters.settingsOfOnShowScrollingText.forceDisabledDefaultSkip;
+                break;
+            case MessageSkipTarget.BATTLE_LOG:
+                ret = this.config.parameters.settingsOfBattleLog.forceDisabledDefaultSkip;
+                break;
+            default:
+                throw new UTA_MessageSkipMVError(`Invalid message skip target (${target})`);
+        }
+        return ret;
+    };
+
+    /**
+     * ウェイト関連制御文字をメッセージスキップ対象に含めるか取得する。  
+     * 当該設定が無い種別を指定した場合は例外を送出する。
+     * @static
+     * @param {MessageSkipTargeType} target 対象種別。
+     * @return {boolean} ウェイト関連制御文字をメッセージスキップ対象に含める場合true。
+     */
+    MessageSkipManager.isSkipPauseOperations = function(target) {
+        let ret;
+        switch (target) {
+            case MessageSkipTarget.SHOW_TEXT:
+                ret = this.config.parameters.settingsOfOnShowText.skipPauseOperationsEnabled;
+                break;
+            default:
+                throw new UTA_MessageSkipMVError(`Invalid message skip target (${target})`);
+        }
+        return ret;
     };
 
     /**
@@ -112,19 +134,39 @@ export const MessageSkipManager = (function() {
         if (this.config.parameters.touchHoldSkipEnabled && TouchInput.isRepeated()) {
             return true;
         }
-
         for (let keyName of config.parameters.skipAssignedKeys) {
             if (Input.isPressed(keyName)) {
                 return true;
             }
         }
-
         return false;
     };
 
     /**
+     * メッセージスキップ機能の有効状態を取得し、指定した番号のスイッチに状態を格納する。
+     * @param {number} switchId 結果を格納するスイッチの番号。
+     */
+    MessageSkipManager.getEnabled = function(switchId) {
+        logger.debug(`Get message skip enabled state to switch. (switchId=${switchId}, enabled=${this._enabled})`);
+
+        /* 範囲外の番号が渡された場合は何もしない模様 */
+        $gameSwitches.setValue(switchId, this._enabled);
+    };
+
+    /**
+     * メッセージスキップ機能の有効状態を設定する。  
+     * 有効状態は各種別全てに影響する。
+     * @static
+     * @param {boolean} enabled 設定する有効状態。
+     */
+    MessageSkipManager.setEnabled = function(enabled) {
+        logger.debug(`Set message skip enabled state to '${enabled}'`);
+        this._enabled = enabled;
+    };
+
+    /**
      * プラグインコマンドを実行する。  
-     * Game_Interpreter.prototype.pluginCommand から呼ばれる。
+     * `Game_Interpreter.prototype.pluginCommand`から呼ばれる。
      * @static
      * @param {string} command プラグインコマンド識別子。
      * @param {string[]} args プラグインコマンド引数。
@@ -138,10 +180,17 @@ export const MessageSkipManager = (function() {
             throw new UTA_MessageSkipMVError(`Invalid plugin command ('${prompt}')`);
         }
 
-        const subcommand = strictCastParameter(args[0], "string");
+        const subcommand = strictParseParameter(args[0], "string");
         switch (subcommand) {
+            /* UTA_MessageSkipMV getEnabled <switchId> */
+            case "getEnabled": {
+                const cleanArgs = strictParseParameters(args, ["number"]);
+                this.getEnabled(...cleanArgs);
+                break;
+            }
+            /* UTA_MessageSkipMV setEnabled <enabled> */
             case "setEnabled": {
-                const cleanArgs = strictCastParameters(args, ["boolean"]);
+                const cleanArgs = strictParseParameters(args, ["boolean"]);
                 this.setEnabled(...cleanArgs);
                 break;
             }

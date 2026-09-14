@@ -18,7 +18,7 @@
  * @param skipAssignedKeys
  * @text メッセージスキップキー
  * @desc メッセージスキップに紐づけるキーを設定します。
- * 複数設定可能です。
+ * 複数設定可能。
  * @type select[]
  * @default []
  * @option tab
@@ -45,36 +45,31 @@
  * @value down
  * 
  * @param touchHoldSkipEnabled
- * @text タッチ長押しでのメッセージスキップ有効化
- * @desc タッチ長押しでメッセージスキップを有効にするか。
+ * @text タッチホールドでのメッセージスキップ
+ * @desc タッチホールドでメッセージスキップするか。
  * デフォルト機能を無効にした場合に利用します。
  * @type boolean
  * @default true
  * @on 有効にする
  * @off 無効にする
  * 
- * @param forceDisabledBasicSkip
- * @text デフォルトスキップ機能の無効化
- * @desc 決定キーなど長押しで早送りできるデフォルト機能を無効にするか。
- * 自分で決めたキーのみを利用したい場合は無効化してください。
- * @type boolean
- * @default false
- * @on 無効にする
- * @off 無効にしない
+ * @param settingsOfOnShowText
+ * @text 「文章の表示」のメッセージスキップ設定
+ * @desc 「文章の表示」におけるメッセージスキップ設定。
+ * @type struct<settingsOfOnShowTextJP>
+ * @default TODO
  * 
- * @param isSkipPauseOperations
- * @text ウェイト関連制御記号のスキップ
- * @desc ウェイト関連の制御記号をメッセージスキップ対象にするか。
- * @type boolean
- * @default true
- * @on スキップする
- * @off スキップしない
+ * @param settingsOfOnShowScrollingText
+ * @text 「文章のスクロール表示」のメッセージスキップ設定
+ * @desc 「文章のスクロール表示」におけるメッセージスキップ設定。
+ * @type struct<settingsOfOnShowScrollingTextJP>
+ * @default TODO
  * 
- * @param messageSkipTargets
- * @text メッセージスキップ機能の有効状態個別設定
- * @desc 各機能単位でメッセージスキップ機能を利用するかを設定します。
- * @type struct<skipTargetMessageTypeJP>
- * @default {"enabledOnShowText":"true","enabledOnShowScrollingText":"true","enabledOnBattleLogText":"true"}
+ * @param settingsOfBattleLog
+ * @text 戦闘ログのメッセージスキップ設定
+ * @desc 戦闘ログにおけるメッセージスキップ設定。
+ * @type struct<settingsOfBattleLogJP>
+ * @default TODO
  * 
  * @param debugLogEnabled
  * @text デバッグログの有効状態
@@ -111,34 +106,91 @@
  *   v1.0.0 (旧表記 ver 1.00) (2016-02-17)
  *     初版。
  * 
- * # リンク・連絡先
- *   WebSite: https://www.utakata-no-yume.net
- *   GitHub : https://github.com/t-akatsuki
- *   X      : @T_Akatsuki
  */
-/*~struct~skipTargetMessageTypeJP:
+/*~struct~settingsOfOnShowTextJP:
  * 
- * @param enabledOnShowText
- * @text 「文章の表示」での有効状態
+ * @param messageSkipEnabled
+ * @text メッセージスキップの有効状態
  * @desc 「文章の表示」でメッセージスキップ機能を有効にするか。
  * @type boolean
  * @default true
  * @on 有効にする
  * @off 無効にする
  * 
- * @param enabledOnShowScrollingText
- * @text 「文章のスクロール表示」での有効状態
- * @desc 「文章のスクロール表示」でメッセージスキップ機能を有効にするか。
+ * @param forceDisabledDefaultSkip
+ * @text デフォルト早送り機能の無効化
+ * @desc 「文章の表示」でデフォルト早送り機能を無効化するか。
+ * 本プラグインの機能のみを利用したい場合に無効化します。
+ * @type boolean
+ * @default false
+ * @on 無効にする
+ * @off 無効にしない
+ * 
+ * @param skipPauseOperationsEnabled
+ * @text ウェイト関連制御記号のスキップ
+ * @desc 「文章の表示」における制御記号を用いたウェイトを
+ * スキップ対象に含めるか。
+ * @type boolean
+ * @default true
+ * @on スキップする
+ * @off スキップしない
+ */
+/*~struct~settingsOfOnShowScrollingTextJP:
+ * 
+ * @param messageSkipEnabled
+ * @text メッセージスキップの有効状態
+ * @desc 「文章のスクロール表示」でメッセージスキップ機能を
+ * 有効にするか。
  * @type boolean
  * @default true
  * @on 有効にする
  * @off 無効にする
  * 
- * @param enabledOnBattleLogText
- * @text 戦闘ログでの有効状態
- * @desc 戦闘中の戦闘ログでメッセージスキップ機能を有効にするか。
+ * @param forceDisabledDefaultSkip
+ * @text デフォルト早送り機能の無効化
+ * @desc 「文章のスクロール表示」でデフォルト早送り機能を
+ * 無効化するか。
+ * @type boolean
+ * @default false
+ * @on 無効にする
+ * @off 無効にしない
+ * 
+ * @param fastForwardRate
+ * @text メッセージスキップ時の速度
+ * @desc 「文章のスクロール表示」でのメッセージスキップ時の
+ * スクロール速度。数値が大きいほど早くなります。
+ * @type number
+ * @default 9
+ * @max 100
+ * @min 1
+ * @decimals 0
+ */
+/*~struct~settingsOfBattleLogJP:
+ * 
+ * @param messageSkipEnabled
+ * @text メッセージスキップの有効状態
+ * @desc 戦闘ログでメッセージスキップ機能を有効にするか。
  * @type boolean
  * @default true
  * @on 有効にする
  * @off 無効にする
+ * 
+ * @param forceDisabledDefaultSkip
+ * @text デフォルト早送り機能の無効化
+ * @desc 戦闘ログでデフォルト早送り機能を無効化するか。
+ * 本プラグインの機能のみを利用したい場合に無効化します。
+ * @type boolean
+ * @default false
+ * @on 無効にする
+ * @off 無効にしない
+ * 
+ * @param fastForwardRate
+ * @text メッセージスキップ時の速度
+ * @desc 戦闘ログでのメッセージスキップ時の表示速度。
+ * 数値が大きいほど早くなる。
+ * @type number
+ * @default 9
+ * @max 100
+ * @min 1
+ * @decimals 0
  */

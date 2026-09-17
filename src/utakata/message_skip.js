@@ -131,7 +131,7 @@ export const MessageSkipManager = (function() {
      * @return {boolean} スキップキーのいずれかが押されている場合はtrue。
      */
     MessageSkipManager.isTriggeredSkipButton = function() {
-        if (this.config.parameters.touchHoldSkipEnabled && TouchInput.isRepeated()) {
+        if (this.config.parameters.touchHoldSkipEnabled && TouchInput.isLongPressed()) {
             return true;
         }
         for (let keyName of config.parameters.skipAssignedKeys) {

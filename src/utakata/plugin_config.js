@@ -111,7 +111,9 @@ const PluginConfig = (() => {
         let parameters = {};
 
         try {
-            parameters["skipAssignedKeys"] = /** @type {string[]} */ (strictParseParameter(rawParameters["skipAssignedKeys"], "object"));
+            /* 複数同じ値が設定される可能性があるのでuniqueにする */
+            const _skipAssignedKeys = /** @type {string[]} */strictParseParameter(rawParameters["skipAssignedKeys"], "array");
+            parameters["skipAssignedKeys"] =  Array.from(new Set(_skipAssignedKeys));
             parameters["touchHoldSkipEnabled"] = strictParseParameter(rawParameters["touchHoldSkipEnabled"], "boolean");
 
             const _settingsOfOnShowText = /** @type {Object<string, any>} */strictParseParameter(rawParameters["settingsOfOnShowText"], "object");

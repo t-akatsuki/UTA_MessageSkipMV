@@ -39,6 +39,7 @@ export const MessageSkipManager = (function() {
 
     /**
      * プラグインの識別子。
+     * @static
      * @memberof MessageSkipManager
      * @name identifier
      * @readonly
@@ -58,6 +59,7 @@ export const MessageSkipManager = (function() {
 
     /**
      * 対象のメッセージスキップ機能の有効状態を得る。
+     * @static
      * @param {MessageSkipTargeLiteral} [target] 対象種別。
      * @return {boolean} メッセージスキップ機能の有効状態
      */
@@ -85,6 +87,7 @@ export const MessageSkipManager = (function() {
 
     /**
      * デフォルトスキップ機能の無効化設定を取得する。
+     * @static
      * @param {MessageSkipTargeLiteral} target 対象種別。
      * @return {boolean} デフォルトスキップ無効化設定としている場合はtrue。
      */
@@ -144,6 +147,7 @@ export const MessageSkipManager = (function() {
 
     /**
      * メッセージスキップの早送り速度を取得する。
+     * @static
      * @param {MessageSkipTargeLiteral} target 対象種別。
      * @return {number} 早送り速度の値。
      */
@@ -164,6 +168,7 @@ export const MessageSkipManager = (function() {
 
     /**
      * メッセージスキップ機能の有効状態を取得し、指定した番号のスイッチに状態を格納する。
+     * @static
      * @param {number} switchId 結果を格納するスイッチの番号。
      */
     MessageSkipManager.getEnabled = function(switchId) {

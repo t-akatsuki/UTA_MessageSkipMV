@@ -37,16 +37,44 @@ Window_Message.prototype.updateShowFast = function() {
 /* ------------------------------------------------------------------------- */
 /*  Window_ScrollText extends */
 /* ------------------------------------------------------------------------- */
+const _Window_ScrollText_prototype_isFastForward = Window_ScrollText.prototype.isFastForward;
 
-// Window_ScrollText.prototype.isFastForwardでボタン判定
-// Window_ScrollText.prototype.scrollSpeedでスクロール速度調整
-// Window_ScrollText.prototype.terminateMessageでウィンドウを閉じている
-// update/updateMessageがupdate実体
+/**
+ * @override
+ * @return {boolean}
+ */
+Window_ScrollText.prototype.isFastForward = function() {
+    let ret = _Window_ScrollText_prototype_isFastForward.call(this);
 
-// 早送り無し==$gameMessage.scrollNoFast()がtrue?
+    /* デフォルト機能を無効に設定した場合、デフォルトの早送り判定で必ずfalseを返す */
+    if (MessageSkipManager.isForceDisabledDefaultSkip(MessageSkipTarget.SCROLLING_TEXT)) {
+        ret = false;
+    }
 
+    return ret;
+};
 
+const _Window_ScrollText_prototype_scrollSpeed = Window_ScrollText.prototype.scrollSpeed;
 
+/**
+ * @override
+ * @return {number}
+ */
+Window_ScrollText.prototype.scrollSpeed = function() {
+    let speed = _Window_ScrollText_prototype_scrollSpeed.call(this);
+
+    /* 「早送りなし」を設定した場合はメッセージスキップ不可とする */
+    if ($gameMessage.scrollNoFast()) {
+        return speed;
+    }
+
+    /* メッセージスキップキーを押下している場合は早送り速度を上書き */
+    if (MessageSkipManager.isEnabled(MessageSkipTarget.SCROLLING_TEXT) && MessageSkipManager.isTriggeredSkipButton()) {
+        speed = MessageSkipManager.getFastForwardRate(MessageSkipTarget.SCROLLING_TEXT);
+    }
+
+    return speed;
+};
 
 /* ------------------------------------------------------------------------- */
 /*  Window_BattleLog extends */

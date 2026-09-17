@@ -58,19 +58,19 @@
  * @text 「文章の表示」のメッセージスキップ設定
  * @desc 「文章の表示」におけるメッセージスキップ設定。
  * @type struct<settingsOfOnShowTextJP>
- * @default TODO
+ * @default {"messageSkipEnabled":"true","forceDisabledDefaultSkip":"false","skipPauseOperationsEnabled":"true"}
  * 
  * @param settingsOfOnShowScrollingText
  * @text 「文章のスクロール表示」のメッセージスキップ設定
  * @desc 「文章のスクロール表示」におけるメッセージスキップ設定。
  * @type struct<settingsOfOnShowScrollingTextJP>
- * @default TODO
+ * @default {"messageSkipEnabled":"true","forceDisabledDefaultSkip":"false","fastForwardRate":"15"}
  * 
  * @param settingsOfBattleLog
  * @text 戦闘ログのメッセージスキップ設定
  * @desc 戦闘ログにおけるメッセージスキップ設定。
  * @type struct<settingsOfBattleLogJP>
- * @default TODO
+ * @default {"messageSkipEnabled":"true","forceDisabledDefaultSkip":"false","fastForwardRate":"15"}
  * 
  * @param debugLogEnabled
  * @text デバッグログの有効状態
@@ -253,7 +253,7 @@
  * @desc 「文章のスクロール表示」でのメッセージスキップ時の
  * スクロール速度。数値が大きいほど早くなります。
  * @type number
- * @default 9
+ * @default 15
  * @max 100
  * @min 1
  * @decimals 0
@@ -282,7 +282,7 @@
  * @desc 戦闘ログでのメッセージスキップ時の表示速度。
  * 数値が大きいほど早くなる。
  * @type number
- * @default 9
+ * @default 15
  * @max 100
  * @min 1
  * @decimals 0

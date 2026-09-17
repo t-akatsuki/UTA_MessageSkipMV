@@ -6,12 +6,12 @@ import { UTA_MessageSkipMVError } from "@/utils/error";
 
 /**
  * メッセージスキップ対象種別定義識別子。
- * @typedef {"showText" | "scrollingText" | "battleLog"} MessageSkipTargeType
+ * @typedef {"showText" | "scrollingText" | "battleLog"} MessageSkipTargeLiteral
  */
 
 /**
  * メッセージスキップ対象の種別定義。
- * @type {Object<string, MessageSkipTargeType>}
+ * @type {Object<string, MessageSkipTargeLiteral>}
  */
 export const MessageSkipTarget = Object.freeze({
     "SHOW_TEXT": "showText",
@@ -58,7 +58,7 @@ export const MessageSkipManager = (function() {
 
     /**
      * 対象のメッセージスキップ機能の有効状態を得る。
-     * @param {MessageSkipTargeType} [target] 対象種別。
+     * @param {MessageSkipTargeLiteral} [target] 対象種別。
      * @return {boolean} メッセージスキップ機能の有効状態
      */
     MessageSkipManager.isEnabled = function(target) {
@@ -85,7 +85,7 @@ export const MessageSkipManager = (function() {
 
     /**
      * デフォルトスキップ機能の無効化設定を取得する。
-     * @param {MessageSkipTargeType} target 対象種別。
+     * @param {MessageSkipTargeLiteral} target 対象種別。
      * @return {boolean} デフォルトスキップ無効化設定としている場合はtrue。
      */
     MessageSkipManager.isForceDisabledDefaultSkip = function(target) {
@@ -110,7 +110,7 @@ export const MessageSkipManager = (function() {
      * ウェイト関連制御文字をメッセージスキップ対象に含めるか取得する。  
      * 当該設定が無い種別を指定した場合は例外を送出する。
      * @static
-     * @param {MessageSkipTargeType} target 対象種別。
+     * @param {MessageSkipTargeLiteral} target 対象種別。
      * @return {boolean} ウェイト関連制御文字をメッセージスキップ対象に含める場合true。
      */
     MessageSkipManager.isSkipPauseOperations = function(target) {

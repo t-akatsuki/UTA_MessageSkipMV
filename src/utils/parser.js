@@ -7,6 +7,7 @@
  * @property {number} number
  * @property {string} string
  * @property {boolean} boolean
+ * @property {any[]} array
  * @property {Record<string, any>} object
  */
 
@@ -14,20 +15,21 @@
  * 引数のデータを適切な型のデータに変換する。
  * @template {keyof ParseTypeMap} T 変換後の型の種類。
  * @param {any} target 変換前データ。
- * @param {T} expectedType 期待する型の種類。
+ * @param {T} targetType 期待する型の種類。
  * @return {ParseTypeMap[T]} 適切な型に変換されたデータ。
  */
-export function strictParseParameter(target, expectedType) {
-    const targetType = expectedType.toLowerCase();
+export function strictParseParameter(target, targetType) {
+    const targetTypeLower = targetType.toLowerCase();
 
     /** @type {any} */
     let parsed = undefined;
+    let expectedType = targetTypeLower;
 
-    switch (targetType) {
+    switch (targetTypeLower) {
         case "number": 
             parsed = Number(target);
             if (Number.isNaN(parsed)) {
-                throw new TypeError(`Parsed as NaN (target=${target}, expectedType=${expectedType})`);
+                throw new TypeError(`Parsed as NaN (target=${target}, targetType=${targetType})`);
             }
             break;
         case "string":
@@ -41,15 +43,19 @@ export function strictParseParameter(target, expectedType) {
                 }
             }
             break;
+        case "array":
+            expectedType = "object";
+            parsed = JSON.parse(target);
+            break;
         case "object":
             parsed = JSON.parse(target);
             break;
         default:
-            throw new TypeError(`Expected type invalid (target=${target}, expectedType=${expectedType})`);
+            throw new TypeError(`Expected type invalid (target=${target}, targetType=${targetType})`);
     }
 
-    if (typeof parsed !== targetType || typeof parsed === "undefined") {
-        throw new TypeError(`Could not parse as expected type (target=${target}, expectedType=${expectedType})`);
+    if (typeof parsed !== expectedType || typeof parsed === "undefined") {
+        throw new TypeError(`Could not parse as expected type (target=${target}, targetType=${targetType})`);
     }
 
     return parsed;

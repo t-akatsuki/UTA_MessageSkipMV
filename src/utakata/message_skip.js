@@ -143,6 +143,26 @@ export const MessageSkipManager = (function() {
     };
 
     /**
+     * メッセージスキップの早送り速度を取得する。
+     * @param {MessageSkipTargeLiteral} target 対象種別。
+     * @return {number} 早送り速度の値。
+     */
+    MessageSkipManager.getFastForwardRate = function(target) {
+        let fastForwardRate;
+        switch (target) {
+            case MessageSkipTarget.SCROLLING_TEXT:
+                fastForwardRate = this.config.parameters.settingsOfOnShowScrollingText.fastForwardRate;
+                break;
+            case MessageSkipTarget.BATTLE_LOG:
+                fastForwardRate = this.config.parameters.settingsOfBattleLog.fastForwardRate;
+                break;
+            default:
+                throw new UTA_MessageSkipMVError(`Invalid message skip target (${target})`);
+        }
+        return fastForwardRate;
+    };
+
+    /**
      * メッセージスキップ機能の有効状態を取得し、指定した番号のスイッチに状態を格納する。
      * @param {number} switchId 結果を格納するスイッチの番号。
      */

@@ -3,13 +3,6 @@ import { MessageSkipManager, MessageSkipTarget } from "@/utakata/message_skip";
 /* ------------------------------------------------------------------------- */
 /*  Window_Message extends */
 /* ------------------------------------------------------------------------- */
-// OK: pauseSkipはオプションにした方がよい
-// --: 推された時を拡張するのが正しい
-//    -> これをつぶすとメッセージが送れなくなって詰む
-// OK: 元の処理を無視する事はできるが、タッチでの処理も消えちゃうのでオプションであった方が良い
-// terminateMessageでメッセージウィンドウが閉じる時にアップデートした方が良い
-// updateShowFastで早くするフラグを立てているここでメッセージスキップしているかが分かる
-// update/updateMessageがupdate実体
 const _Window_Message_prototype_updateShowFast = Window_Message.prototype.updateShowFast;
 
 /**

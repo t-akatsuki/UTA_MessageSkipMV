@@ -43,8 +43,8 @@ declare -r DIST_DIR="${WORK_DIR%/}/dist"
 #  識別子:dest  : 同梱対象物の配置パス(配布ディレクトリルートからの相対パス)
 declare -rA TARGETS=(
     # プラグインファイル
-    ["plugin:src"]="${BUILD_DIR%/}/UTA_PluginTemplateMVZ.js"
-    ["plugin:dest"]="plugin/UTA_PluginTemplateMVZ.js"
+    ["plugin:src"]="${BUILD_DIR%/}/${PLUGIN_FILENAME}.js"
+    ["plugin:dest"]="plugin/${PLUGIN_FILENAME}.js"
     # 日本語READMEファイル
     ["readme_ja:src"]="${DOCS_DIR%}/README.txt"
     ["readme_ja:dest"]="README.txt"

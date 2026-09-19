@@ -30,6 +30,7 @@ help:
 
 # 出力ディレクトリのお掃除
 clean:
+	@if [ ! -d "$(DIST_DIR)" ]; then { mkdir -p "$(DIST_DIR)"; } fi
 	@echo "Clean dist directory... ($(DIST_DIR))"
 	@find $(DIST_DIR) -mindepth 1 -delete
 

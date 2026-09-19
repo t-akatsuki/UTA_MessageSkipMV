@@ -24,7 +24,7 @@ help:
 	  
 	# Targets
 	clean : Clean dist directory.
-	js    : Run release build plugin js file.
+	js    : Run release build plugin js file and copy built plugin js file to project root.
 	pack  : Create package from built files.
 	EOS
 

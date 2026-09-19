@@ -8,7 +8,7 @@ import { strictParseParameter } from "@/utils/parser";
  * 「文章の表示」におけるメッセージスキップ設定。
  * @typedef {Object} settingsOfOnShowText
  * @property {boolean} messageSkipEnabled 「文章の表示」でのメッセージスキップの有効状態。
- * @property {boolean} forceDisabledDefaultSkip 「文章の表示」でデフォルト早送り機能を無効化するか。
+ * @property {boolean} forceDisabledDefaultFastForward 「文章の表示」でデフォルト早送り機能を無効化するか。
  * @property {boolean} skipPauseOperationsEnabled 「文章の表示」で制御記号を用いたウェイトをスキップ対象に含めるか。
  */
 
@@ -16,7 +16,7 @@ import { strictParseParameter } from "@/utils/parser";
  * 「文章のスクロール表示」のメッセージスキップ設定。
  * @typedef {Object} settingsOfOnShowScrollingText
  * @property {boolean} messageSkipEnabled 「文章のスクロール表示」でのメッセージスキップの有効状態。
- * @property {boolean} forceDisabledDefaultSkip 「文章のスクロール表示」でフォルト早送り機能を無効化するか。
+ * @property {boolean} forceDisabledDefaultFastForward 「文章のスクロール表示」でフォルト早送り機能を無効化するか。
  * @property {number} fastForwardRate 「文章のスクロール表示」でのメッセージスキップ時のスクロール速度。
  */
 
@@ -24,7 +24,7 @@ import { strictParseParameter } from "@/utils/parser";
  * 戦闘ログにおけるメッセージスキップ設定。
  * @typedef {Object} settingsOfBattleLog
  * @property {boolean} messageSkipEnabled 戦闘ログでのメッセージスキップの有効状態。
- * @property {boolean} forceDisabledDefaultSkip 戦闘ログでデフォルト早送り機能を無効化するか。
+ * @property {boolean} forceDisabledDefaultFastForward 戦闘ログでデフォルト早送り機能を無効化するか。
  * @property {number} fastForwardRate 戦闘ログでのメッセージスキップ時の表示速度。
  */
 
@@ -119,21 +119,21 @@ const PluginConfig = (() => {
             const _settingsOfOnShowText = /** @type {Object<string, any>} */strictParseParameter(rawParameters["settingsOfOnShowText"], "object");
             parameters["settingsOfOnShowText"] = {
                 "messageSkipEnabled": strictParseParameter(_settingsOfOnShowText["messageSkipEnabled"], "boolean"),
-                "forceDisabledDefaultSkip": strictParseParameter(_settingsOfOnShowText["forceDisabledDefaultSkip"], "boolean"),
+                "forceDisabledDefaultFastForward": strictParseParameter(_settingsOfOnShowText["forceDisabledDefaultFastForward"], "boolean"),
                 "skipPauseOperationsEnabled": strictParseParameter(_settingsOfOnShowText["skipPauseOperationsEnabled"], "boolean")
             };
 
             const _settingsOfOnShowScrollingText = /** @type {Object<string, any>} */strictParseParameter(rawParameters["settingsOfOnShowScrollingText"], "object");
             parameters["settingsOfOnShowScrollingText"] = {
                 "messageSkipEnabled": strictParseParameter(_settingsOfOnShowScrollingText["messageSkipEnabled"], "boolean"),
-                "forceDisabledDefaultSkip": strictParseParameter(_settingsOfOnShowScrollingText["forceDisabledDefaultSkip"], "boolean"),
+                "forceDisabledDefaultFastForward": strictParseParameter(_settingsOfOnShowScrollingText["forceDisabledDefaultFastForward"], "boolean"),
                 "fastForwardRate": strictParseParameter(_settingsOfOnShowScrollingText["fastForwardRate"], "number")
             };
 
             const _settingsOfBattleLog = /** @type {Object<string, any>} */strictParseParameter(rawParameters["settingsOfBattleLog"], "object");
             parameters["settingsOfBattleLog"] = {
                 "messageSkipEnabled": strictParseParameter(_settingsOfBattleLog["messageSkipEnabled"], "boolean"),
-                "forceDisabledDefaultSkip": strictParseParameter(_settingsOfBattleLog["forceDisabledDefaultSkip"], "boolean"),
+                "forceDisabledDefaultFastForward": strictParseParameter(_settingsOfBattleLog["forceDisabledDefaultFastForward"], "boolean"),
                 "fastForwardRate": strictParseParameter(_settingsOfBattleLog["fastForwardRate"], "number")
             };
 

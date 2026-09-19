@@ -16,7 +16,7 @@ Window_Message.prototype.updateShowFast = function() {
     }
 
     /* デフォルト機能を無効に設定した場合、メッセージスキッププラグインで設定したキーのみを考慮する */
-    let isTriggered = this.isTriggered() && !MessageSkipManager.isForceDisabledDefaultSkip(MessageSkipTarget.SHOW_TEXT);
+    let isTriggered = this.isTriggered() && !MessageSkipManager.isforceDisabledDefaultFastForward(MessageSkipTarget.SHOW_TEXT);
     isTriggered = isTriggered || MessageSkipManager.isTriggeredSkipButton();
 
     this._showFast = isTriggered;
@@ -40,7 +40,7 @@ Window_ScrollText.prototype.isFastForward = function() {
     let ret = _Window_ScrollText_prototype_isFastForward.call(this);
 
     /* デフォルト機能を無効に設定した場合、デフォルトの早送り判定で必ずfalseを返す */
-    if (MessageSkipManager.isForceDisabledDefaultSkip(MessageSkipTarget.SCROLLING_TEXT)) {
+    if (MessageSkipManager.isforceDisabledDefaultFastForward(MessageSkipTarget.SCROLLING_TEXT)) {
         ret = false;
     }
 
@@ -109,7 +109,7 @@ Window_BattleLog.prototype.isFastForward = function() {
     let ret = _Window_BattleLog_prototype_isFastForward.call(this);
 
     /* デフォルト機能を無効に設定した場合、デフォルトの早送り判定で必ずfalseを返す */
-    if (MessageSkipManager.isForceDisabledDefaultSkip(MessageSkipTarget.BATTLE_LOG)) {
+    if (MessageSkipManager.isforceDisabledDefaultFastForward(MessageSkipTarget.BATTLE_LOG)) {
         ret = false;
     }
 

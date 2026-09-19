@@ -58,19 +58,19 @@
  * @text 「文章の表示」のメッセージスキップ設定
  * @desc 「文章の表示」におけるメッセージスキップ設定。
  * @type struct<settingsOfOnShowTextJP>
- * @default {"messageSkipEnabled":"true","forceDisabledDefaultSkip":"false","skipPauseOperationsEnabled":"true"}
+ * @default {"messageSkipEnabled":"true","forceDisabledDefaultFastForward":"false","skipPauseOperationsEnabled":"true"}
  * 
  * @param settingsOfOnShowScrollingText
  * @text 「文章のスクロール表示」のメッセージスキップ設定
  * @desc 「文章のスクロール表示」におけるメッセージスキップ設定。
  * @type struct<settingsOfOnShowScrollingTextJP>
- * @default {"messageSkipEnabled":"true","forceDisabledDefaultSkip":"false","fastForwardRate":"15"}
+ * @default {"messageSkipEnabled":"true","forceDisabledDefaultFastForward":"false","fastForwardRate":"15"}
  * 
  * @param settingsOfBattleLog
  * @text 戦闘ログのメッセージスキップ設定
  * @desc 戦闘ログにおけるメッセージスキップ設定。
  * @type struct<settingsOfBattleLogJP>
- * @default {"messageSkipEnabled":"true","forceDisabledDefaultSkip":"false","fastForwardRate":"15"}
+ * @default {"messageSkipEnabled":"true","forceDisabledDefaultFastForward":"false","fastForwardRate":"15"}
  * 
  * @param debugLogEnabled
  * @text デバッグログの有効状態
@@ -210,7 +210,7 @@
  * @on 有効にする
  * @off 無効にする
  * 
- * @param forceDisabledDefaultSkip
+ * @param forceDisabledDefaultFastForward
  * @text デフォルト早送り機能の無効化
  * @desc 「文章の表示」でデフォルト早送り機能を無効化するか。
  * 本プラグインの機能のみを利用したい場合に無効化します。
@@ -239,7 +239,7 @@
  * @on 有効にする
  * @off 無効にする
  * 
- * @param forceDisabledDefaultSkip
+ * @param forceDisabledDefaultFastForward
  * @text デフォルト早送り機能の無効化
  * @desc 「文章のスクロール表示」でデフォルト早送り機能を
  * 無効化するか。
@@ -268,7 +268,7 @@
  * @on 有効にする
  * @off 無効にする
  * 
- * @param forceDisabledDefaultSkip
+ * @param forceDisabledDefaultFastForward
  * @text デフォルト早送り機能の無効化
  * @desc 戦闘ログでデフォルト早送り機能を無効化するか。
  * 本プラグインの機能のみを利用したい場合に無効化します。

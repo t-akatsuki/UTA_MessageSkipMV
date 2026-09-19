@@ -91,17 +91,17 @@ export const MessageSkipManager = (function() {
      * @param {MessageSkipTargeLiteral} target 対象種別。
      * @return {boolean} デフォルトスキップ無効化設定としている場合はtrue。
      */
-    MessageSkipManager.isForceDisabledDefaultSkip = function(target) {
+    MessageSkipManager.isforceDisabledDefaultFastForward = function(target) {
         let ret;
         switch (target) {
             case MessageSkipTarget.SHOW_TEXT:
-                ret = this.config.parameters.settingsOfOnShowText.forceDisabledDefaultSkip;
+                ret = this.config.parameters.settingsOfOnShowText.forceDisabledDefaultFastForward;
                 break;
             case MessageSkipTarget.SCROLLING_TEXT:
-                ret = this.config.parameters.settingsOfOnShowScrollingText.forceDisabledDefaultSkip;
+                ret = this.config.parameters.settingsOfOnShowScrollingText.forceDisabledDefaultFastForward;
                 break;
             case MessageSkipTarget.BATTLE_LOG:
-                ret = this.config.parameters.settingsOfBattleLog.forceDisabledDefaultSkip;
+                ret = this.config.parameters.settingsOfBattleLog.forceDisabledDefaultFastForward;
                 break;
             default:
                 throw new UTA_MessageSkipMVError(`Invalid message skip target (${target})`);

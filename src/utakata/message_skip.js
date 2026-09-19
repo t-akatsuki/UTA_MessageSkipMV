@@ -226,5 +226,7 @@ export const MessageSkipManager = (function() {
         }
     };
 
+    logger.debug(`MessageSkipManager initialized. Succeeded to load plugin parameters.\n${JSON.stringify(MessageSkipManager.config.parameters)}`);
+
     return MessageSkipManager;
 })();

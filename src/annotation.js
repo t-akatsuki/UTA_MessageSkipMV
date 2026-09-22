@@ -26,8 +26,12 @@
  * @value tab
  * @option ok
  * @value ok
+ * @option cancel
+ * @value cancel
  * @option shift
  * @value shift
+ * @option menu
+ * @valu menu
  * @option control
  * @value control
  * @option escape

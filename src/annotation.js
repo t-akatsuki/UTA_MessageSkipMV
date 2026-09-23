@@ -33,7 +33,7 @@
  * @option shift
  * @value shift
  * @option menu
- * @valu menu
+ * @value menu
  * @option control
  * @value control
  * @option escape

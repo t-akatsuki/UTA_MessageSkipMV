@@ -5,11 +5,6 @@
 # https://hub.docker.com/r/microsoft/devcontainers
 FROM mcr.microsoft.com/devcontainers/javascript-node:24-trixie
 
-USER root
-
-# shellの指定
-SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
-
 ENV \
     # コマンドラインのインタラクティブ操作を無効化
     # https://www.debian.org/releases/sarge/s390/ch05s02.html.ja
@@ -18,18 +13,34 @@ ENV \
     # apt-getを利用すると出てしまう模様だが、docker環境では無視する
     # https://manpages.debian.org/unstable/debconf-doc/debconf.7.en.html#DEBCONF_NOWARNINGS
     DEBCONF_NOWARNINGS=yes \
+    # pipパッケージの制限を無効化
+    PIP_BREAK_SYSTEM_PACKAGES=1 \
     # タイムゾーンの設定
     TZ="Asia/Tokyo"
+
+USER root
+
+# shellの指定
+SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
 RUN \
     # パッケージのインストール
     apt-get update && \
-    apt-get install --no-install-recommends -y make zip unzip jq tig && \
+    apt-get install --no-install-recommends -y make zip unzip jq tig python3 python3-pip && \
     # マウント用のディレクトリを作成
     mkdir -p /workspace && \
     # キャッシュ削除
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# pipパッケージインストールのために一旦コピー
+COPY ./requirements-lock.txt /root/requirements-lock.txt
+
+RUN \
+    # pipパッケージのインストール
+    pip install --no-cache-dir -r /root/requirements-lock.txt && \
+    # 不要ファイルの削除
+    rm -f /root/requirements-lock.txt
 
 # コンテナ実行時ユーザー
 USER node
@@ -45,3 +56,6 @@ WORKDIR /workspace
 # /workspace/project
 #   RPGツクールMV/MZプロジェクトマウント用
 VOLUME ["/backup", "/target"]
+
+# プレビュー用の公開ポート
+EXPOSE 8000

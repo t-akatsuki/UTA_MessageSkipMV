@@ -9,7 +9,7 @@
   "remoteUser": "node",
   "containerUser": "node",
   // 環境変数での設定を柔軟にするためにcomposeを利用
-  "dockerComposeFile": "./docker-compose.yml",
+  "dockerComposeFile": "../docker-compose.yml",
   "service": "uta_rpgmvz-plugin-devcontainer",
   "shutdownAction": "stopCompose",
   "workspaceFolder": "/workspace",

@@ -12,8 +12,8 @@ services:
     # 衝突防止の為に COMPOSE_PROJECT_NAME を付与しておく
     container_name: "${COMPOSE_PROJECT_NAME}_uta_rpgmvz-plugin-devcontainer"
     build:
-      context: ../
-      dockerfile: ./.devcontainer/Dockerfile
+      context: ./
+      dockerfile: ./Dockerfile
     image: utakata/rpgmvz-plugin-devcontainer:node-24-trixie
     tty: true
     environment:
@@ -22,7 +22,7 @@ services:
     volumes:
       # プロジェクトワークスペース
       - type: bind
-        source: ../
+        source: ./
         target: /workspace
         read_only: false
         consistency: cached

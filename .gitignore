@@ -6,6 +6,7 @@ node_modules
 
 # ビルド結果出力ディレクトリ
 build
+docs/help/build
 
 # パッケージング結果出力ディレクトリ
 dist
@@ -15,5 +16,11 @@ project
 
 # 環境変数ファイル
 .env
+
+# python byte codes
+*.pyc
+*.pyo
+*.pyi
+__pycache__
 
 !.gitkeep

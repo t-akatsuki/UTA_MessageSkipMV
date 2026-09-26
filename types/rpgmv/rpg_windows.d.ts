@@ -1,6 +1,14 @@
 // =============================================================================
 // rpg_windows.js 型定義補助ファイル
 // =============================================================================
+
+declare interface TextState {
+    index: number;
+    x: number;
+    y: number;
+    left: number;
+}
+
 /**
  * The superclass of all windows within the game.
  */
@@ -26,6 +34,16 @@ declare class Window_Selectable extends Window_Base {
 declare class Window_Message extends Window_Base {
     constructor();
     public initialize(): void;
+    public initMembers(): void;
+
+    public _imageReservationId: number;
+    public _background: number;
+    public _positionType: number;
+    public _waitCount: number;
+    public _faceBitmap: any;    // Bitmap
+    public _textState: TextState | null;
+
+    public pause: boolean;
 
     public clearFlag(): void;
 
@@ -36,6 +54,10 @@ declare class Window_Message extends Window_Base {
     public isTriggered(): boolean;
 
     public updateShowFast(): void;
+
+    public processEscapeCharacter(code: string, textState: TextState): void;
+    public startWait(count: number): void;
+    public startPause(): void;
 }
 
 /**

@@ -190,6 +190,15 @@ export const MessageSkipManager = (function() {
     };
 
     /**
+     * 引数で渡した制御文字がウェイト関連制御文字であるかを返す。
+     * @param {string} code 制御文字prefix`\`を抜いた文字。
+     * @return {boolean} ウェイト関連制御文字である場合はtrueを返す。
+     */
+    MessageSkipManager.isPauseOperations = function(code) {
+        return [".", "|", "!"].includes(code);
+    };
+
+    /**
      * プラグインコマンドを実行する。  
      * `Game_Interpreter.prototype.pluginCommand`から呼ばれる。
      * @static

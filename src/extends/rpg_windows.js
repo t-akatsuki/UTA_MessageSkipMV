@@ -21,9 +21,37 @@ Window_Message.prototype.updateShowFast = function() {
 
     this._showFast = isTriggered;
 
-    /* ウェイト系制御文字のスキップを有効にした場合は当該フラグを立てる */
+    /* ウェイト系制御文字のスキップを有効にした場合はポーズスキップフラグを立てる */
     if (isTriggered && MessageSkipManager.isSkipPauseOperations(MessageSkipTarget.SHOW_TEXT)) {
         this._pauseSkip = true;
+    }
+};
+
+const _Window_Message_prototype_processEscapeCharacter = Window_Message.prototype.processEscapeCharacter;
+
+/**
+ * @override
+ * @param {string} code
+ * @param {TextState} textState
+ */
+Window_Message.prototype.processEscapeCharacter = function(code, textState) {
+    const previosWaitCount = this._waitCount;
+    const previosPause = this.pause;
+    _Window_Message_prototype_processEscapeCharacter.call(this, code, textState);
+
+    if (!MessageSkipManager.isEnabled(MessageSkipTarget.SHOW_TEXT)) {
+        return;
+    }
+
+    /* 
+     * ウェイト系制御文字のスキップを有効にした場合はウェイトを打ち消す
+     * 元の処理を改変すると競合可能性が高まるので、元の処理はそのまま行うが変更部分のみを打ち消す
+     */
+    if (MessageSkipManager.isTriggeredSkipButton() && MessageSkipManager.isSkipPauseOperations(MessageSkipTarget.SHOW_TEXT)) {
+        if (MessageSkipManager.isPauseOperations(code)) {
+            this._waitCount = previosWaitCount;
+            this.pause = previosPause;
+        }
     }
 };
 
